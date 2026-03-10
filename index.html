@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock Paper Scissors GAME</title>
+  <style>
+    body{
+      background-color: rgb(25, 25, 25);
+      color: white;
+      font-family: arial;
+      text-align: center;
+    }
+    img{
+      height: 200px;
+      width: 200px;
+     
+    }
+    .movebutton{
+      
+      background-color: transparent;
+      padding-bottom:30px;
+      padding-top: 10px; 
+      border: 3px solid white;
+      border-radius: 60%;
+    
+    }
+   button:hover{
+    transform: scale(1.2);
+    }
+    .containermoves{
+      display: flex;
+      justify-content: center;
+      justify-content: space-around;
+    }
+   .heading{
+    font-size: 30px;
+    margin-top: 20px;
+   }
+    .reset,.autoPlay{
+      height: 50px;
+      width:150px;
+      font-weight: bold;
+      font-size: 20px;
+      margin-left: 20px;
+     
+    }
+    .resultText{
+      font-size: 30px;
+      font-weight: bold;
+      margin-top: 30px;
+    }
+   .moves{
+  
+    font-size: 25px;
+     margin-bottom: 40px;
+   }
+   .resultimg{
+    height: 60px;
+    width: 60px;
+   
+   }
+   .scoreText{
+    font-size: 30px;
+   }
+   /* @media (max-width: 768px) { 
+   .movebutton{
+  height: 70%;
+  width: 30%;
+   }
+   .movebutton img{
+    height: 70%;
+   }
+   } */
+  </style>
+</head>
+<body>
+  <h1>Rock Paper Scissors game!</h1><hr>
+  <p class="heading">Select your move</p>
+  <div class="containermoves">
+  <button onclick="cc=selectCompMove();uc='rock';result()" class="movebutton"><img src="https://supersimple.dev/projects/rock-paper-scissors/images/rock-emoji.png"></button>
+  <button onclick="cc=selectCompMove();uc='paper';result()" class="movebutton"><img src="https://supersimple.dev/projects/rock-paper-scissors/images/paper-emoji.png"></button>
+  <button onclick="cc=selectCompMove();uc='scissors';result()" class="movebutton"><img src="https://supersimple.dev/projects/rock-paper-scissors/images/scissors-emoji.png"></button></div>
+  <p class="resultText" ></p>
+  <p class="moves"></p>
+  <p class="scoreText"></p>
+  
+  <button onclick="score.wins=0;score.losses=0;score.ties=0;updateScore();" class="reset">Reset Score</button>
+  <button class="autoPlay" onclick="autoPlay()">Auto Play</button>
+  <script>
+
+//AUTOPLAY
+let intervalId;
+let isAutoPlay=false;
+function autoPlay(){
+  if(!isAutoPlay){
+ intervalId=setInterval(function(){
+  cc=selectCompMove();
+  uc=selectCompMove();
+  result();
+ },1000); isAutoPlay=true}
+ else{
+clearInterval(intervalId);
+isAutoPlay=false;
+ }
+}
+  
+    let cc;
+    let uc;
+    let score={
+      wins:0,losses:0,ties:0
+    };
+
+    updateScore();
+    function selectCompMove(){
+      let No=Math.random();
+       if(No<1/3){
+    return 'rock';
+    }else if((1/3<=No)&&(No<2/3)){
+     return 'paper';
+    }else{
+     return 'scissors';
+    }
+   
+    }
+    function result(){
+      let r;
+if((uc=='rock' && cc=='scissors')||(uc=='paper' && cc=='rock')||(uc=='scissors' && cc=='paper')){
+  
+ r= 'win';
+}else if((uc=='rock' && cc=='paper')||(uc=='paper' && cc=='scissors')||(uc=='scissors' && cc=='rock')){
+ r= 'lose';
+}else{
+r= 'tie';
+}
+if(r=='win'){score.wins++;}else if(r=='lose'){score.losses++;}else{score.ties++}
+
+updateScore();
+ document.querySelector('.resultText').innerHTML=`You ${r}`;
+document.querySelector('.moves').innerHTML=`You chose <img class="resultimg" src="https://supersimple.dev/projects/rock-paper-scissors/images/${uc}-emoji.png">    Computer chose <img class="resultimg" src="https://supersimple.dev/projects/rock-paper-scissors/images/${cc}-emoji.png">`;
+
+    }
+
+    function updateScore(){
+      document.querySelector('.scoreText').innerHTML=`wins=${score.wins},losses=${score.losses},ties=${score.ties}`;
+    }
+
+  </script>
+</body>
+</html>
